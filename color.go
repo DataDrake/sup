@@ -16,16 +16,20 @@
 
 package main
 
+// Color represents and ECMA87 color escape code
 type Color string
 
+// FG prints a color as a foreground sequence
 func FG(c Color) string {
 	return "\\[\\e[38;5;" + string(c) + "m\\]"
 }
 
+// BG prints a color as a background sequence
 func BG(c Color) string {
 	return "\\[\\e[48;5;" + string(c) + "m\\]"
 }
 
+// Pair prints two colors as a FG/BG sequence
 func Pair(fg, bg Color) string {
 	return "\\[\\e[38;5;" + string(fg) + ";48;5;" + string(bg) + "m\\]"
 }

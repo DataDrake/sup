@@ -35,14 +35,17 @@ var (
 	WorkDir string
 )
 
+// Has256Color chechs for 256 color support
 func Has256Color() bool {
 	return strings.Contains(os.Getenv("TERM"), "256")
 }
 
+// HasUnicode checks for Unicode support
 func HasUnicode() bool {
 	return !strings.Contains(os.Getenv("TERM"), "linux")
 }
 
+// IsSSH checks for the presence of an SSH session
 func IsSSH() bool {
 	return len(os.Getenv("SSH_CLIENT")) > 0
 }
