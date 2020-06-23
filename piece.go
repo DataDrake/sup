@@ -16,10 +16,6 @@
 
 package main
 
-import (
-	"fmt"
-)
-
 // Piece makes up a small part of the PS1 line
 type Piece struct {
 	content string
@@ -27,12 +23,14 @@ type Piece struct {
 	bg Color
 }
 
-type pieceFn func() []Piece
+type pieceFn func() *Piece
 
 // Call each function, joining together the results
 func build(fns ...pieceFn) (pieces []Piece) {
 	for _, fn := range fns {
-		pieces = append(pieces, fn()...)
+		if piece := fn(); piece != nil {
+			pieces = append(pieces, *piece)
+		}
 	}
 	return
 }
@@ -43,20 +41,21 @@ func render(pieces []Piece) string {
 	for i, curr := range pieces {
 		if i == 0 {
 			// Very first piece needs colors set before-hand
-			status += Pair(curr.fg, curr.bg)
+			status += Pair(curr.fg, curr.bg) + " "
 		}
+		status += curr.content
 		if len(pieces) == i+1 {
 			// Last piece has nothing after it
-			status += fmt.Sprintf(" %s %s\\[\\e[49m\\]", curr.content, FG(curr.bg))
+			status += " " + FG(curr.bg) + "\\[\\e[49m\\] \\[\\e[0m\\]"
 			break
 		}
 		if next := pieces[i+1]; curr.fg != next.fg || curr.bg != next.bg {
 			// Deal with color change
-			status += fmt.Sprintf(" %s %s%s", curr.content, Pair(curr.bg, next.bg), FG(next.fg))
+			status +=  " " + Pair(curr.bg, next.bg) + " " + FG(next.fg)
 		} else {
 			// Same color, so just print
-			status += fmt.Sprintf(" %s ", curr.content)
+			status += "  "
 		}
 	}
-	return fmt.Sprintf("%s \\[\\e[0m\\]", status) // make sure to reset styling after
+	return status
 }

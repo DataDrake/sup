@@ -16,12 +16,10 @@
 
 package main
 
-func username() []Piece {
-	return []Piece{
-		Piece{
-			content: Username,
-			fg:      0,
-			bg:      39,
-		},
+func username() *Piece {
+	return &Piece{
+		content: Username,
+		fg:      "0",
+		bg:      "39",
 	}
 }

@@ -17,22 +17,19 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"strings"
+	"path/filepath"
 )
 
-func pyenv() (pieces []Piece) {
+func pyenv() *Piece {
 	// Check for Python virtual environemnt
 	if env := os.Getenv("VIRTUAL_ENV"); len(env) > 0 {
 		// only output the last part of the environment path
-		parts := strings.Split(env, "/")
-		p := Piece{
-			content: fmt.Sprintf("⟆ %s", parts[len(parts)-1]),
-			fg:      0,
-			bg:      251,
+		return &Piece{
+			content: "⟆ " + filepath.Base(env),
+			fg:      "0",
+			bg:      "251",
 		}
-		pieces = append(pieces, p)
 	}
-	return
+	return nil
 }

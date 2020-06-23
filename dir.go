@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-func dir() []Piece {
+func dir() *Piece {
 	var dirs []string
-	parts := strings.Split(WorkDir, "/")
+	path := strings.TrimPrefix(WorkDir, HomeDir)
+	parts := strings.Split(path, "/")
 	// Deal with HOME
-	if strings.HasPrefix(WorkDir, HomeDir) {
+	if len(WorkDir) > len(path) {
 		dirs = append(dirs, "~")
-		path := strings.TrimPrefix(WorkDir, HomeDir)
-		parts = strings.Split(path, "/")
 		parts = parts[1:]
 	}
 	// Show part of the beginning of the path for context
@@ -45,11 +44,9 @@ func dir() []Piece {
 		parts = parts[len(parts)-2:]
 	}
 	dirs = append(dirs, parts...)
-	return []Piece{
-		Piece{
-			content: strings.Join(dirs, "/"),
-			fg:      15,
-			bg:      8,
-		},
+	return &Piece{
+		content: strings.Join(dirs, "/"),
+		fg:      "15",
+		bg:      "8",
 	}
 }

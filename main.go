@@ -46,7 +46,9 @@ func init() {
 
 func main() {
 	// Build each of the requested pieces
-	pieces := build(host, username, pyenv, vcs, dir, pipeStatus)
+	fns := []pieceFn{host, username, pyenv, vcs, dir}
+	fns = append(fns, pipeStatus()...)
+	pieces := build(fns...)
 	// Render all the pieces as a single string
 	out := render(pieces)
 	// Print the resulting string to Stdout

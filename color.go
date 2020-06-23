@@ -16,38 +16,16 @@
 
 package main
 
-import (
-	"os"
-)
+type Color string
 
-func pipeStatus() (fns []pieceFn) {
-	failure := false
-	// Generate a piece for each return code
-	for _, content := range os.Args[1:] {
-		// Assume success
-		fn := func() *Piece {
-			return &Piece {
-				content: content,
-				fg:      "0",
-				bg:      "46",
-			}
-		}
-		// override for failure
-		if content != "0" {
-			failure = true
-			fn = func() *Piece {
-				return &Piece {
-					content: content,
-					fg: "15",
-					bg: "160",
-				}
-			}
-		}
-		fns = append(fns, fn)
-	}
-	// If no failures, don't produce any output
-	if !failure {
-		fns = make([]pieceFn, 0)
-	}
-	return
+func FG(c Color) string {
+	return "\\[\\e[38;5;" + string(c) + "m\\]"
+}
+
+func BG(c Color) string {
+	return "\\[\\e[48;5;" + string(c) + "m\\]"
+}
+
+func Pair(fg, bg Color) string {
+	return "\\[\\e[38;5;" + string(fg) + ";48;5;" + string(bg) + "m\\]"
 }

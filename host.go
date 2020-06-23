@@ -17,24 +17,22 @@
 package main
 
 import (
-	"fmt"
 	"os"
 )
 
-func host() []Piece {
-	// Assume localhost
-	p := Piece{
-		content: "⮞",
-		fg:      15,
-		bg:      57,
-	}
+func host() *Piece {
 	// Override for SSH
 	if len(os.Getenv("SSH_CLIENT")) > 0 {
-		p = Piece {
-			content: fmt.Sprintf(" %s", Hostname),
-			fg: 0,
-			bg: 208,
+		return &Piece {
+			content: " " + Hostname,
+			fg: "0",
+			bg: "208",
 		}
 	}
-	return []Piece{p}
+	// localhost
+	return &Piece{
+		content: "⮞",
+		fg:      "15",
+		bg:      "57",
+	}
 }
