@@ -1,8 +1,10 @@
+#!/bin/bash
+
 function _sup() {
-    PS1=$(sup ${PIPESTATUS[@]})
+    PS1=$(sup "${PIPESTATUS[@]}")
 }
 
-if [[ -z ${VTE_VERSION} ]]; then
+if [[ -z $VTE_VERSION ]]; then
     PROMPT_COMMAND="_sup"
 else
     PROMPT_COMMAND="_sup; __vte_prompt_command"
