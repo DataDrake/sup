@@ -7,14 +7,24 @@ Go PS1 Status Updater
 
 The prompt is a good place for contextual information, but other tools were slow. So I wrote this instead!
 
+This work was inspired by the venerable [Powerline](https://github.com/powerline/powerline), but does not share any code.
+
 ## Goals
 
  * Spin up and down as fast as reasonable
  * A+ Rating on [Report Card](https://goreportcard.com/report/github.com/DataDrake/cuppa)
  
+## Screenshots
+
+#### Context-Sensitive Status Reporting:
+![Status](images/status.png)
+
+#### Working Directory Truncation:
+![Dirs](images/dirs.png)
+ 
 ## Reported Information
 
-* Hostname (SSH)
+* SSH Hostname
 * Username
 * Python Virtual Environment
 * Version Control
@@ -25,10 +35,15 @@ The prompt is a good place for contextual information, but other tools were slow
 
 ## Requirements
 
+#### Compile-Time
 * Go 1.14 (tested)
 * Make
-* (Optional) Git
-* (Optional) Subversion
+
+#### Runtime
+* [powerline-fonts](https://github.com/powerline/fonts) for special glyphs
+* VCS/SCM Reporting:
+  * (Optional) Git
+  * (Optional) Subversion
 
 ## Installation
 
