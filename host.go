@@ -21,7 +21,7 @@ var remote = " "
 
 func init() {
 	if !HasUnicode() {
-		local  = "H"
+		local = "H"
 		remote = "R "
 	}
 }
@@ -29,10 +29,10 @@ func init() {
 func host() *Piece {
 	// Override for SSH
 	if IsSSH() {
-		return &Piece {
+		return &Piece{
 			content: remote + Hostname,
-			fg: "0",
-			bg: "208",
+			fg:      "0",
+			bg:      "208",
 		}
 	}
 	// localhost

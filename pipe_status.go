@@ -26,7 +26,7 @@ func pipeStatus() (fns []pieceFn) {
 	for _, content := range os.Args[1:] {
 		// Assume success
 		fn := func() *Piece {
-			return &Piece {
+			return &Piece{
 				content: content,
 				fg:      "0",
 				bg:      "46",
@@ -36,10 +36,10 @@ func pipeStatus() (fns []pieceFn) {
 		if content != "0" {
 			failure = true
 			fn = func() *Piece {
-				return &Piece {
+				return &Piece{
 					content: content,
-					fg: "15",
-					bg: "160",
+					fg:      "15",
+					bg:      "160",
 				}
 			}
 		}

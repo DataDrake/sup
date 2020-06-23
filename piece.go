@@ -22,8 +22,8 @@ var carrotSame = "  "
 // Piece makes up a small part of the PS1 line
 type Piece struct {
 	content string
-	fg Color
-	bg Color
+	fg      Color
+	bg      Color
 }
 
 type pieceFn func() *Piece
@@ -54,7 +54,7 @@ func render(pieces []Piece) string {
 		}
 		if next := pieces[i+1]; curr.fg != next.fg || curr.bg != next.bg {
 			// Deal with color change
-			status +=  " " + Pair(curr.bg, next.bg) + carrot + FG(next.fg)
+			status += " " + Pair(curr.bg, next.bg) + carrot + FG(next.fg)
 		} else {
 			// Same color, so just print
 			status += carrotSame

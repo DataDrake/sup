@@ -28,7 +28,6 @@ func init() {
 	}
 }
 
-
 func dir() *Piece {
 	var dirs []string
 	path := strings.TrimPrefix(WorkDir, HomeDir)

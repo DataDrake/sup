@@ -33,7 +33,6 @@ var (
 	HomeDir string
 	// WorkDir is the current working directory
 	WorkDir string
-
 )
 
 func Has256Color() bool {

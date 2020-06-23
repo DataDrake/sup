@@ -49,7 +49,7 @@ func svn() string {
 }
 
 func vcs() *Piece {
-	p := & Piece {
+	p := &Piece{
 		fg: "0",
 		bg: "251",
 	}

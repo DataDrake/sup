@@ -1,7 +1,7 @@
 # sup
 Go PS1 Status Updater
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/DataDrake/sup)](https://goreportcard.com/report/github.com/DataDrake/cuppa) [![license](https://img.shields.io/github/license/DataDrake/sup.svg)]() 
+[![Go Report Card](https://goreportcard.com/badge/github.com/DataDrake/sup)](https://goreportcard.com/report/github.com/DataDrake/sup) [![license](https://img.shields.io/github/license/DataDrake/sup.svg)]()
 
 ## Motivation
 
@@ -12,7 +12,7 @@ This work was inspired by the venerable [Powerline](https://github.com/powerline
 ## Goals
 
  * Spin up and down as fast as reasonable
- * A+ Rating on [Report Card](https://goreportcard.com/report/github.com/DataDrake/cuppa)
+ * A+ Rating on [Report Card](https://goreportcard.com/report/github.com/DataDrake/sup)
  
 ## Screenshots
 
