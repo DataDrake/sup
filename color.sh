@@ -17,7 +17,20 @@
 #
 
 echo
-echo "4-bit colors only (Linux console)"
+echo "3-bit colors only (Linux"
+echo
+for color in {40..47}; do
+    printf "\e[%sm %3s \e[0m" $color $color
+    if [ $((($color + 1) % 8)) == 0 ] ; then
+        echo
+    fi
+done
+for color in {100..107}; do
+    printf "\e[%sm %3s \e[0m" $color $color
+done
+echo
+echo
+echo "8-bit emulated 4-bit colors"
 echo
 for color in {0..15} ; do
     printf "\e[48;5;%sm %3s \e[0m" $color $color

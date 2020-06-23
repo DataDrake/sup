@@ -16,6 +16,9 @@
 
 package main
 
+var carrot = " "
+var carrotSame = "  "
+
 // Piece makes up a small part of the PS1 line
 type Piece struct {
 	content string
@@ -46,15 +49,29 @@ func render(pieces []Piece) string {
 		status += curr.content
 		if len(pieces) == i+1 {
 			// Last piece has nothing after it
-			status += " " + FG(curr.bg) + "\\[\\e[49m\\] \\[\\e[0m\\]"
+			status += " " + FG(curr.bg) + "\\[\\e[49m\\]" + carrot + "\\[\\e[0m\\]"
 			break
 		}
 		if next := pieces[i+1]; curr.fg != next.fg || curr.bg != next.bg {
 			// Deal with color change
-			status +=  " " + Pair(curr.bg, next.bg) + " " + FG(next.fg)
+			status +=  " " + Pair(curr.bg, next.bg) + carrot + FG(next.fg)
 		} else {
 			// Same color, so just print
-			status += "  "
+			status += carrotSame
+		}
+	}
+	return status
+}
+
+// Generate a string from each of the varous parts, for Linux console
+func renderSimple(pieces []Piece) string {
+	var status string
+	for i, curr := range pieces {
+		status += Pair(curr.fg, curr.bg) + " " + curr.content + " "
+		if len(pieces) == i+1 {
+			// Last piece has reset and simple prompt
+			status += "\\[\\e[0m\\]$ "
+			break
 		}
 	}
 	return status

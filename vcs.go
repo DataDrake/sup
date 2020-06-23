@@ -21,6 +21,14 @@ import (
 	"strings"
 )
 
+var branch = " "
+
+func init() {
+	if !HasUnicode() {
+		branch = ""
+	}
+}
+
 func git() string {
 	// get the current Git branch
 	out, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").CombinedOutput()
@@ -28,7 +36,7 @@ func git() string {
 		// either not a git repo or fail silently
 		return ""
 	}
-	return " git:" + strings.TrimSpace(string(out))
+	return branch + "git:" + strings.TrimSpace(string(out))
 }
 
 func svn() string {
@@ -37,7 +45,7 @@ func svn() string {
 		return ""
 	}
 	// TODO: Add special handling for SVN tags/branches
-	return " svn"
+	return branch + "svn"
 }
 
 func vcs() *Piece {

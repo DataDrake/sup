@@ -16,22 +16,28 @@
 
 package main
 
-import (
-	"os"
-)
+var local = "⮞"
+var remote = " "
+
+func init() {
+	if !HasUnicode() {
+		local  = "H"
+		remote = "R "
+	}
+}
 
 func host() *Piece {
 	// Override for SSH
-	if len(os.Getenv("SSH_CLIENT")) > 0 {
+	if IsSSH() {
 		return &Piece {
-			content: " " + Hostname,
+			content: remote + Hostname,
 			fg: "0",
 			bg: "208",
 		}
 	}
 	// localhost
 	return &Piece{
-		content: "⮞",
+		content: local,
 		fg:      "15",
 		bg:      "57",
 	}

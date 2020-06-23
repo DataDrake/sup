@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"os"
 	"os/user"
+	"strings"
 )
 
 var (
@@ -32,7 +33,20 @@ var (
 	HomeDir string
 	// WorkDir is the current working directory
 	WorkDir string
+
 )
+
+func Has256Color() bool {
+	return strings.Contains(os.Getenv("TERM"), "256")
+}
+
+func HasUnicode() bool {
+	return !strings.Contains(os.Getenv("TERM"), "linux")
+}
+
+func IsSSH() bool {
+	return len(os.Getenv("SSH_CLIENT")) > 0
+}
 
 func init() {
 	u, _ := user.Current()
@@ -50,7 +64,12 @@ func main() {
 	fns = append(fns, pipeStatus()...)
 	pieces := build(fns...)
 	// Render all the pieces as a single string
-	out := render(pieces)
+	var out string
+	if HasUnicode() {
+		out = render(pieces)
+	} else {
+		out = renderSimple(pieces)
+	}
 	// Print the resulting string to Stdout
 	fmt.Print(out)
 }

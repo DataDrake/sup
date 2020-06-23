@@ -20,6 +20,15 @@ import (
 	"strings"
 )
 
+var dots = "…"
+
+func init() {
+	if !HasUnicode() {
+		dots = "..."
+	}
+}
+
+
 func dir() *Piece {
 	var dirs []string
 	path := strings.TrimPrefix(WorkDir, HomeDir)
@@ -40,7 +49,7 @@ func dir() *Piece {
 	}
 	// Only show the last bit of the path
 	if len(parts) > 2 {
-		dirs = append(dirs, "…")
+		dirs = append(dirs, dots)
 		parts = parts[len(parts)-2:]
 	}
 	dirs = append(dirs, parts...)
