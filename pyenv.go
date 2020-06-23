@@ -30,7 +30,7 @@ func init() {
 }
 
 func pyenv() *Piece {
-	// Check for Python virtual environemnt
+	// Check for Python virtual environment
 	if env := os.Getenv("VIRTUAL_ENV"); len(env) > 0 {
 		// only output the last part of the environment path
 		return &Piece{
