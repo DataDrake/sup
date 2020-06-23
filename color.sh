@@ -1,0 +1,52 @@
+#!/bin/bash
+
+#
+# Copyright 2020 Bryan T. Meyers <root@datadrake.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+echo
+echo "4-bit colors only (Linux console)"
+echo
+for color in {0..15} ; do
+    printf "\e[48;5;%sm %3s \e[0m" $color $color
+    if [ $((($color + 1) % 8)) == 0 ] ; then
+        echo
+    fi
+done
+
+echo
+echo "8-bit extended colors"
+echo
+for color in {16..231} ; do
+    printf "\e[48;5;%sm %3s \e[0m" $color $color
+    if [ $((($color + 1) % 6)) == 4 ] ; then
+        echo
+    fi
+    if [ $((($color + 1) % 36)) == 16 ] ; then
+        echo
+    fi
+done
+
+echo "8-bit Grayscale colors"
+echo
+for color in {232..255} ; do
+    printf "\e[48;5;%sm %3s \e[0m" $color $color
+    if [ $((($color + 1) % 8)) == 0 ] ; then
+        echo
+    fi
+done
+echo
+exit 0
+
