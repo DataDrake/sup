@@ -2,4 +2,8 @@ function _sup() {
     PS1=$(sup ${PIPESTATUS[@]})
 }
 
-PROMPT_COMMAND=_sup
+if [[ -z ${VTE_VERSION} ]]; then
+    PROMPT_COMMAND="_sup"
+else
+    PROMPT_COMMAND="_sup; __vte_prompt_command"
+fi
