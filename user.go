@@ -19,9 +19,9 @@ package main
 func username() []Piece {
 	return []Piece{
 		Piece{
-			Content: Username,
-			FG:      97,
-			BG:      104,
+			content: Username,
+			fg:      0,
+			bg:      39,
 		},
 	}
 }

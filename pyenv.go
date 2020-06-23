@@ -28,9 +28,9 @@ func pyenv() (pieces []Piece) {
 		// only output the last part of the environment path
 		parts := strings.Split(env, "/")
 		p := Piece{
-			Content: fmt.Sprintf("⟆ %s", parts[len(parts)-1]),
-			FG:      30,
-			BG:      47,
+			content: fmt.Sprintf("⟆ %s", parts[len(parts)-1]),
+			fg:      0,
+			bg:      251,
 		}
 		pieces = append(pieces, p)
 	}

@@ -47,9 +47,9 @@ func dir() []Piece {
 	dirs = append(dirs, parts...)
 	return []Piece{
 		Piece{
-			Content: strings.Join(dirs, "/"),
-			FG:      97,
-			BG:      100,
+			content: strings.Join(dirs, "/"),
+			fg:      15,
+			bg:      8,
 		},
 	}
 }

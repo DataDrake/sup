@@ -24,13 +24,17 @@ import (
 func host() []Piece {
 	// Assume localhost
 	p := Piece{
-		Content: "✦",
-		FG:      97,
-		BG:      105,
+		content: "⮞",
+		fg:      15,
+		bg:      57,
 	}
 	// Override for SSH
 	if len(os.Getenv("SSH_CLIENT")) > 0 {
-		p.Content = fmt.Sprintf(" %s", Hostname)
+		p = Piece {
+			content: fmt.Sprintf(" %s", Hostname),
+			fg: 0,
+			bg: 208,
+		}
 	}
 	return []Piece{p}
 }

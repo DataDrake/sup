@@ -22,9 +22,9 @@ import (
 
 // Piece makes up a small part of the PS1 line
 type Piece struct {
-	Content string
-	FG      int
-	BG      int
+	content string
+	fg Color
+	bg Color
 }
 
 type pieceFn func() []Piece
@@ -43,19 +43,19 @@ func render(pieces []Piece) string {
 	for i, curr := range pieces {
 		if i == 0 {
 			// Very first piece needs colors set before-hand
-			status += fmt.Sprintf("\\[\\e[%d;%dm\\]", curr.FG, curr.BG)
+			status += Pair(curr.fg, curr.bg)
 		}
 		if len(pieces) == i+1 {
 			// Last piece has nothing after it
-			status += fmt.Sprintf(" %s \\[\\e[%d;49m\\]", curr.Content, curr.BG-10)
+			status += fmt.Sprintf(" %s %s\\[\\e[49m\\]", curr.content, FG(curr.bg))
 			break
 		}
-		if next := pieces[i+1]; curr.FG != next.FG || curr.BG != next.BG {
+		if next := pieces[i+1]; curr.fg != next.fg || curr.bg != next.bg {
 			// Deal with color change
-			status += fmt.Sprintf(" %s \\[\\e[%d;%dm\\]\\[\\e[%dm\\]", curr.Content, curr.BG-10, next.BG, next.FG)
+			status += fmt.Sprintf(" %s %s%s", curr.content, Pair(curr.bg, next.bg), FG(next.fg))
 		} else {
 			// Same color, so just print
-			status += fmt.Sprintf(" %s ", curr.Content)
+			status += fmt.Sprintf(" %s ", curr.content)
 		}
 	}
 	return fmt.Sprintf("%s \\[\\e[0m\\]", status) // make sure to reset styling after

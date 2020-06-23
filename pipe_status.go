@@ -26,15 +26,15 @@ func pipeStatus() (pieces []Piece) {
 	for _, content := range os.Args[1:] {
 		// Assume success
 		piece := Piece{
-			Content: content,
-			FG:      30,
-			BG:      42,
+			content: content,
+			fg:      0,
+			bg:      46,
 		}
 		// override for failure
 		if content != "0" {
 			failure = true
-			piece.FG = 97
-			piece.BG = 41
+			piece.fg = 15
+			piece.bg = 160
 		}
 		pieces = append(pieces, piece)
 	}

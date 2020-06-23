@@ -22,43 +22,41 @@ import (
 	"strings"
 )
 
-func git() *Piece {
+func git() string {
 	// get the current Git branch
 	cmd := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		// either not a git repo or fail silently
-		return nil
+		return ""
 	}
-	return &Piece{
-		Content: fmt.Sprintf(" git:%s", strings.TrimSpace(string(out))),
-		FG:      30,
-		BG:      47,
-	}
+	return fmt.Sprintf(" git:%s", strings.TrimSpace(string(out)))
 }
 
-func svn() *Piece {
+func svn() string {
 	// check if this is an SVN repo
 	cmd := exec.Command("svn", "info", "--show-item", "url")
 	err := cmd.Run()
 	if err != nil {
-		return nil
+		return ""
 	}
 	// TODO: Add special handling for SVN tags/branches
-	return &Piece{
-		Content: " svn",
-		FG:      30,
-		BG:      47,
-	}
+	return " svn"
 }
 
 func vcs() []Piece {
 	var pieces []Piece
-	if p := git(); p != nil {
-		pieces = append(pieces, *p)
+	p := Piece {
+		fg: 0,
+		bg: 251,
 	}
-	if p := svn(); p != nil {
-		pieces = append(pieces, *p)
+	if content := git(); len(content) > 0 {
+		p.content = content
+		pieces = append(pieces, p)
+	}
+	if content := svn(); len(content) > 0 {
+		p.content = content
+		pieces = append(pieces, p)
 	}
 	return pieces
 }
