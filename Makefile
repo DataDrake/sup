@@ -53,7 +53,7 @@ install:
 uninstall:
 	@$(call stage,UNINSTALL)
 	rm -f $(DESTDIR)$(BINDIR)/$(PKGNAME)
-	rm -f $(DESTDIR)$(DATADIR)
+	rm -rf $(DESTDIR)$(DATADIR)
 	@$(call pass,UNINSTALL)
 
 clean:
