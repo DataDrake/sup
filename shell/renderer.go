@@ -22,6 +22,51 @@ import (
 
 // Renderer presents a common interface for supporting any shell syntax
 type Renderer interface {
-	Full([]pieces.Piece) string
-	Simple([]pieces.Piece) string
+	FG(fg pieces.Color) string
+	BG(bg pieces.Color) string
+	Pair(fg, bg pieces.Color) string
+	Reset() string
+	ResetBG() string
+}
+
+var carrot = " "
+var carrotSame = "  "
+
+// Full generates a string from each of the varous parts
+func Full(r Renderer, ps []pieces.Piece) string {
+	var status string
+	for i, curr := range ps {
+		if i == 0 {
+			// Very first piece needs colors set before-hand
+			status += r.Pair(curr.FG, curr.BG) + " "
+		}
+		status += curr.Content
+		if len(ps) == i+1 {
+			// Last piece has nothing after it
+			status += " " + r.FG(curr.BG) + r.ResetBG() + carrot + r.Reset()
+			break
+		}
+		if next := ps[i+1]; curr.FG != next.FG || curr.BG != next.BG {
+			// Deal with color change
+			status += " " + r.Pair(curr.BG, next.BG) + carrot + r.FG(next.FG)
+		} else {
+			// Same color, so just print
+			status += carrotSame
+		}
+	}
+	return status
+}
+
+// Simple generates a string from each of the varous parts, for Linux console
+func Simple(r Renderer, ps []pieces.Piece) string {
+	var status string
+	for i, curr := range ps {
+		status += r.Pair(curr.FG, curr.BG) + " " + curr.Content + " "
+		if len(ps) == i+1 {
+			// Last piece has reset and simple prompt
+			status += r.Reset() + "$ "
+			break
+		}
+	}
+	return status
 }

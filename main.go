@@ -21,8 +21,6 @@ import (
 	"fmt"
 	"github.com/DataDrake/sup/pieces"
 	"github.com/DataDrake/sup/shell"
-	"github.com/DataDrake/sup/shell/bash"
-	"github.com/DataDrake/sup/shell/zsh"
 	"github.com/DataDrake/sup/term"
 	"os"
 )
@@ -34,21 +32,21 @@ func main() {
 	flag.Parse()
 	switch *sh {
 	case "bash", "sh", "posix":
-		r = bash.Bash{}
+		r = shell.Bash{}
 	case "zsh":
-		r = zsh.Zsh{}
+		r = shell.Zsh{}
 	default:
 		fmt.Fprintf(os.Stderr, "unsupported shell '%s', defaulting to bash\n", *sh)
-		r = bash.Bash{}
+		r = shell.Bash{}
 	}
 	// Build each of the requested pieces
 	ps := pieces.Build(flag.Args())
 	// Render all the pieces as a single string
 	var out string
 	if term.HasUnicode() {
-		out = r.Full(ps)
+		out = shell.Full(r, ps)
 	} else {
-		out = r.Simple(ps)
+		out = shell.Simple(r, ps)
 	}
 	// Print the resulting string to Stdout
 	fmt.Print(out)

@@ -14,23 +14,36 @@
 // limitations under the License.
 //
 
-package bash
+package shell
 
 import (
 	"github.com/DataDrake/sup/pieces"
 )
 
+// Bash is a Renderer for the Bash shell
+type Bash struct{}
+
 // FG prints a color as a foreground sequence
-func FG(c pieces.Color) string {
+func (b Bash) FG(c pieces.Color) string {
 	return "\001\033[38;5;" + string(c) + "m\002"
 }
 
 // BG prints a color as a background sequence
-func BG(c pieces.Color) string {
+func (b Bash) BG(c pieces.Color) string {
 	return "\001\033[48;5;" + string(c) + "m\002"
 }
 
 // Pair prints two colors as a FG/BG sequence
-func Pair(fg, bg pieces.Color) string {
+func (b Bash) Pair(fg, bg pieces.Color) string {
 	return "\001\033[38;5;" + string(fg) + ";48;5;" + string(bg) + "m\002"
+}
+
+// Reset both the FG anf BG colors to default
+func (b Bash) Reset() string {
+	return "\001\033[0m\002"
+}
+
+// ResetBG resets the BG color to default
+func (b Bash) ResetBG() string {
+	return "\001\033[49m\002"
 }
