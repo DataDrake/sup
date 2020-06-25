@@ -50,17 +50,18 @@ var ThemeDir string
 var Current Theme
 
 // Load reads in a theme
-func Load(name string) {
+func Load(name string) error {
 	f, err := os.Open(filepath.Join(ThemeDir, name+".json"))
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 	defer f.Close()
 	dec := json.NewDecoder(f)
 	err = dec.Decode(&Current)
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
+	return nil
 }
 
 func init() {

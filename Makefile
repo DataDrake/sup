@@ -51,6 +51,7 @@ install:
 	install -Dm 00644 data/bash.sh $(DESTDIR)$(DATADIR)/bash.sh
 	install -Dm 00644 data/sup.zsh $(DESTDIR)$(DATADIR)/sup.zsh
 	install -Dm 00644 data/themes/default.json $(DESTDIR)$(THEMEDIR)/default.json
+	install -Dm 00644 data/themes/warm.json $(DESTDIR)$(THEMEDIR)/warm.json
 	@$(call pass,INSTALL)
 
 uninstall:

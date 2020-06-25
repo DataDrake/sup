@@ -22,10 +22,16 @@ import (
 	"github.com/DataDrake/sup/pieces"
 	"github.com/DataDrake/sup/shell"
 	"github.com/DataDrake/sup/term"
+	"github.com/DataDrake/sup/themes"
 	"os"
 )
 
 func main() {
+	if theme := os.Getenv("SUP_THEME"); len(theme) > 0 {
+		if err := themes.Load(theme); err != nil {
+			themes.Load("default")
+		}
+	}
 	var r shell.Renderer
 	// Deal with flags
 	var sh = flag.String("sh", "bash", "select shell to use")
