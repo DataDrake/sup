@@ -18,33 +18,26 @@ package pieces
 
 import (
 	"github.com/DataDrake/sup/term"
+	"github.com/DataDrake/sup/themes"
 	"os"
 )
 
-var local = "⮞"
-var remote = " "
-
-func init() {
-	if !term.HasUnicode() {
-		local = "H"
-		remote = "R "
-	}
-}
-
 func host() *Piece {
-	hostname, _ := os.Hostname()
+	th := themes.Current["host-local"]
+	if term.IsSSH() {
+		th = themes.Current["host-remote"]
+	}
+	p := Convert(th)
+	p.Content = th.ASCII
+	if term.HasUnicode() {
+		p.Content = th.Unicode
+	}
 	// Override for SSH
 	if term.IsSSH() {
-		return &Piece{
-			Content: remote + hostname,
-			FG:      "0",
-			BG:      "208",
-		}
+		hostname, _ := os.Hostname()
+		p.Content += hostname
+		return p
 	}
 	// localhost
-	return &Piece{
-		Content: local,
-		FG:      "15",
-		BG:      "57",
-	}
+	return p
 }

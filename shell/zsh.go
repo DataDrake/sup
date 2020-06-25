@@ -16,26 +16,22 @@
 
 package shell
 
-import (
-	"github.com/DataDrake/sup/pieces"
-)
-
 // Zsh is a Renderer for the zsh shell
 type Zsh struct{}
 
 // FG prints a color as a foreground sequence
-func (z Zsh) FG(c pieces.Color) string {
-	return "%{\033[38;5;" + string(c) + "m%}"
+func (z Zsh) FG(c string) string {
+	return "%{\033[38;5;" + c + "m%}"
 }
 
 // BG prints a color as a background sequence
-func (z Zsh) BG(c pieces.Color) string {
-	return "%{\033[48;5;" + string(c) + "m%}"
+func (z Zsh) BG(c string) string {
+	return "%{\033[48;5;" + c + "m%}"
 }
 
 // Pair prints two colors as a FG/BG sequence
-func (z Zsh) Pair(fg, bg pieces.Color) string {
-	return "%{\033[38;5;" + string(fg) + ";48;5;" + string(bg) + "m%}"
+func (z Zsh) Pair(fg, bg string) string {
+	return "%{\033[38;5;" + fg + ";48;5;" + bg + "m%}"
 }
 
 // Reset both the FG anf BG colors to default

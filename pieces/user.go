@@ -17,14 +17,13 @@
 package pieces
 
 import (
+	"github.com/DataDrake/sup/themes"
 	"os/user"
 )
 
 func username() *Piece {
+	p := Convert(themes.Current["username"])
 	u, _ := user.Current()
-	return &Piece{
-		Content: u.Username,
-		FG:      "0",
-		BG:      "39",
-	}
+	p.Content = u.Username
+	return p
 }

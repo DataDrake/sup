@@ -18,20 +18,19 @@ package pieces
 
 import (
 	"github.com/DataDrake/sup/term"
+	"github.com/DataDrake/sup/themes"
 	"os"
 	"os/user"
 	"strings"
 )
 
-var dots = "…"
-
-func init() {
-	if !term.HasUnicode() {
-		dots = "..."
-	}
-}
-
 func dir() *Piece {
+	th := themes.Current["dir"]
+	p := Convert(th)
+	dots := th.ASCII
+	if term.HasUnicode() {
+		dots = th.Unicode
+	}
 	var dirs []string
 	WorkDir, _ := os.Getwd()
 	u, _ := user.Current()
@@ -58,9 +57,6 @@ func dir() *Piece {
 		parts = parts[len(parts)-2:]
 	}
 	dirs = append(dirs, parts...)
-	return &Piece{
-		Content: strings.Join(dirs, "/"),
-		FG:      "15",
-		BG:      "8",
-	}
+	p.Content = strings.Join(dirs, "/")
+	return p
 }

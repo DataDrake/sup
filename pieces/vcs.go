@@ -18,17 +18,10 @@ package pieces
 
 import (
 	"github.com/DataDrake/sup/term"
+	"github.com/DataDrake/sup/themes"
 	"os/exec"
 	"strings"
 )
-
-var branch = " "
-
-func init() {
-	if !term.HasUnicode() {
-		branch = ""
-	}
-}
 
 func git() string {
 	// get the current Git branch
@@ -37,7 +30,7 @@ func git() string {
 		// either not a git repo or fail silently
 		return ""
 	}
-	return branch + "git:" + strings.TrimSpace(string(out))
+	return "git:" + strings.TrimSpace(string(out))
 }
 
 func svn() string {
@@ -46,20 +39,22 @@ func svn() string {
 		return ""
 	}
 	// TODO: Add special handling for SVN tags/branches
-	return branch + "svn"
+	return "svn"
 }
 
 func vcs() *Piece {
-	p := &Piece{
-		FG: "0",
-		BG: "251",
+	th := themes.Current["vcs"]
+	p := Convert(th)
+	p.Content = th.ASCII
+	if term.HasUnicode() {
+		p.Content = th.Unicode
 	}
 	if content := git(); len(content) > 0 {
-		p.Content = content
+		p.Content += content
 		return p
 	}
 	if content := svn(); len(content) > 0 {
-		p.Content = content
+		p.Content += content
 		return p
 	}
 	return nil

@@ -18,22 +18,22 @@ package shell
 
 import (
 	"github.com/DataDrake/sup/pieces"
+	"github.com/DataDrake/sup/themes"
 )
 
 // Renderer presents a common interface for supporting any shell syntax
 type Renderer interface {
-	FG(fg pieces.Color) string
-	BG(bg pieces.Color) string
-	Pair(fg, bg pieces.Color) string
+	FG(fg string) string
+	BG(bg string) string
+	Pair(fg, bg string) string
 	Reset() string
 	ResetBG() string
 }
 
-var carrot = " "
-var carrotSame = "  "
-
 // Full generates a string from each of the varous parts
 func Full(r Renderer, ps []pieces.Piece) string {
+	carrot := themes.Current["carrot"].Unicode
+	carrotSame := themes.Current["carrot-same"].Unicode
 	var status string
 	for i, curr := range ps {
 		if i == 0 {

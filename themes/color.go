@@ -14,27 +14,18 @@
 // limitations under the License.
 //
 
-package pieces
+package themes
 
-import (
-	"github.com/DataDrake/sup/term"
-	"github.com/DataDrake/sup/themes"
-	"os"
-	"path/filepath"
-)
-
-func pyenv() *Piece {
-	// Check for Python virtual environment
-	if env := os.Getenv("VIRTUAL_ENV"); len(env) > 0 {
-		th := themes.Current["pyenv"]
-		p := Convert(th)
-		p.Content = th.ASCII
-		if term.HasUnicode() {
-			p.Content = th.Unicode
-		}
-		// only output the last part of the environment path
-		p.Content += filepath.Base(env)
-		return p
+// Colors defines FG/BG color pairs for themes
+type Colors struct {
+	// 4-bit color for Linux Console
+	C8 struct {
+		FG string
+		BG string
 	}
-	return nil
+	// 8-bit color for full terminals
+	C256 struct {
+		FG string
+		BG string
+	}
 }

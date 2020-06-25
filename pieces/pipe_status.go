@@ -16,27 +16,27 @@
 
 package pieces
 
+import (
+	"github.com/DataDrake/sup/themes"
+)
+
 func pipeStatus(statuses []string) (fns []pieceFn) {
 	failure := false
 	// Generate a piece for each return code
 	for _, content := range statuses {
 		// Assume success
 		fn := func() *Piece {
-			return &Piece{
-				Content: content,
-				FG:      "0",
-				BG:      "46",
-			}
+			good := Convert(themes.Current["pipe-good"])
+			good.Content = content
+			return good
 		}
 		// override for failure
 		if content != "0" {
 			failure = true
 			fn = func() *Piece {
-				return &Piece{
-					Content: content,
-					FG:      "15",
-					BG:      "160",
-				}
+				bad := Convert(themes.Current["pipe-bad"])
+				bad.Content = content
+				return bad
 			}
 		}
 		fns = append(fns, fn)

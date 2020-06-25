@@ -14,7 +14,12 @@
 // limitations under the License.
 //
 
-package pieces
+package themes
 
-// Color represents and ECMA87 color escape code
-type Color string
+// Symbol configurable "icon" for Piece rendering
+type Symbol struct {
+	// ASCII symbol for non-unicode terminals
+	ASCII string
+	// Unicode symbol for full terminals
+	Unicode string
+}

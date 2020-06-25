@@ -16,14 +16,30 @@
 
 package pieces
 
-var carrot = " "
-var carrotSame = "  "
+import (
+	"github.com/DataDrake/sup/term"
+	"github.com/DataDrake/sup/themes"
+)
 
 // Piece makes up a small part of the PS1 line
 type Piece struct {
 	Content string
-	FG      Color
-	BG      Color
+	FG      string
+	BG      string
+}
+
+// Convert a theme Piece to a Piece with the right color scheme
+func Convert(th themes.Piece) *Piece {
+	if term.Has256Color() {
+		return &Piece{
+			FG: th.C256.FG,
+			BG: th.C256.BG,
+		}
+	}
+	return &Piece{
+		FG: th.C8.FG,
+		BG: th.C8.BG,
+	}
 }
 
 type pieceFn func() *Piece

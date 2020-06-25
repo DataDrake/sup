@@ -3,10 +3,11 @@ DESTDIR   ?=
 PREFIX    ?= /usr
 BINDIR     = $(PREFIX)/bin
 DATADIR    = $(PREFIX)/share/$(PKGNAME)
+THEMEDIR   = $(DATADIR)/themes
 
 GOPROJROOT  = $(GOSRC)/$(PROJREPO)
 
-GOLDFLAGS   = -ldflags "-s -w"
+GOLDFLAGS   = -ldflags "-s -w -X github.com/DataDrake/sup/themes.ThemeDir=$(THEMEDIR)"
 GOCC        = go
 GOFMT       = $(GOCC) fmt -x
 GOGET       = $(GOCC) get $(GOLDFLAGS)
@@ -49,6 +50,7 @@ install:
 	install -Dm 00755 $(PKGNAME) $(DESTDIR)$(BINDIR)/$(PKGNAME)
 	install -Dm 00644 data/bash.sh $(DESTDIR)$(DATADIR)/bash.sh
 	install -Dm 00644 data/sup.zsh $(DESTDIR)$(DATADIR)/sup.zsh
+	install -Dm 00644 data/themes/default.json $(DESTDIR)$(THEMEDIR)/default.json
 	@$(call pass,INSTALL)
 
 uninstall:
