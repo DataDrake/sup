@@ -1,7 +1,7 @@
 #!/usr/bin/zsh
 
 function _sup() {
-    PROMPT=$(sup -sh zsh ${PIPESTATUS[@]})
+    PROMPT=$(sup -sh zsh $pipestatus)
 }
 
 function install_sup() {
