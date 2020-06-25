@@ -14,30 +14,7 @@
 // limitations under the License.
 //
 
-package main
+package pieces
 
-import (
-	"os"
-	"path/filepath"
-)
-
-var python = "⟆ "
-
-func init() {
-	if !HasUnicode() {
-		python = "py:"
-	}
-}
-
-func pyenv() *Piece {
-	// Check for Python virtual environment
-	if env := os.Getenv("VIRTUAL_ENV"); len(env) > 0 {
-		// only output the last part of the environment path
-		return &Piece{
-			content: python + filepath.Base(env),
-			fg:      "0",
-			bg:      "251",
-		}
-	}
-	return nil
-}
+// Color represents and ECMA87 color escape code
+type Color string

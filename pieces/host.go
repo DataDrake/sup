@@ -14,31 +14,37 @@
 // limitations under the License.
 //
 
-package main
+package pieces
+
+import (
+	"github.com/DataDrake/sup/term"
+	"os"
+)
 
 var local = "⮞"
 var remote = " "
 
 func init() {
-	if !HasUnicode() {
+	if !term.HasUnicode() {
 		local = "H"
 		remote = "R "
 	}
 }
 
 func host() *Piece {
+	hostname, _ := os.Hostname()
 	// Override for SSH
-	if IsSSH() {
+	if term.IsSSH() {
 		return &Piece{
-			content: remote + Hostname,
-			fg:      "0",
-			bg:      "208",
+			Content: remote + hostname,
+			FG:      "0",
+			BG:      "208",
 		}
 	}
 	// localhost
 	return &Piece{
-		content: local,
-		fg:      "15",
-		bg:      "57",
+		Content: local,
+		FG:      "15",
+		BG:      "57",
 	}
 }

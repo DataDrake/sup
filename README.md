@@ -53,12 +53,20 @@ This work was inspired by the venerable [Powerline](https://github.com/powerline
 
 ## Usage
 
+### Bash
 Add the following line **exactly** to your `bashrc`:
 ```
 source /usr/share/sup/bash.sh
 ```
-
 Reload your `bashrc` or open a new terminal. Enjoy!
+
+### Zsh
+Add the following line **exactly** to your `zshrc`:
+```
+source /usr/share/sup/sup.zsh
+```
+Reload your `zshrc` or open a new terminal. Enjoy!
+
 
 ## License
  

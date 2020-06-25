@@ -14,12 +14,23 @@
 // limitations under the License.
 //
 
-package main
+package zsh
 
-func username() *Piece {
-	return &Piece{
-		content: Username,
-		fg:      "0",
-		bg:      "39",
-	}
+import (
+	"github.com/DataDrake/sup/pieces"
+)
+
+// FG prints a color as a foreground sequence
+func FG(c pieces.Color) string {
+	return "%{\033[38;5;" + string(c) + "m%}"
+}
+
+// BG prints a color as a background sequence
+func BG(c pieces.Color) string {
+	return "%{\033[48;5;" + string(c) + "m%}"
+}
+
+// Pair prints two colors as a FG/BG sequence
+func Pair(fg, bg pieces.Color) string {
+	return "%{\033[38;5;" + string(fg) + ";48;5;" + string(bg) + "m%}"
 }

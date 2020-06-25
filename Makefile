@@ -48,6 +48,7 @@ install:
 	@$(call stage,INSTALL)
 	install -Dm 00755 $(PKGNAME) $(DESTDIR)$(BINDIR)/$(PKGNAME)
 	install -Dm 00644 data/bash.sh $(DESTDIR)$(DATADIR)/bash.sh
+	install -Dm 00644 data/sup.zsh $(DESTDIR)$(DATADIR)/sup.zsh
 	@$(call pass,INSTALL)
 
 uninstall:

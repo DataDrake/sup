@@ -14,9 +14,10 @@
 // limitations under the License.
 //
 
-package main
+package pieces
 
 import (
+	"github.com/DataDrake/sup/term"
 	"os/exec"
 	"strings"
 )
@@ -24,7 +25,7 @@ import (
 var branch = " "
 
 func init() {
-	if !HasUnicode() {
+	if !term.HasUnicode() {
 		branch = ""
 	}
 }
@@ -50,15 +51,15 @@ func svn() string {
 
 func vcs() *Piece {
 	p := &Piece{
-		fg: "0",
-		bg: "251",
+		FG: "0",
+		BG: "251",
 	}
 	if content := git(); len(content) > 0 {
-		p.content = content
+		p.Content = content
 		return p
 	}
 	if content := svn(); len(content) > 0 {
-		p.content = content
+		p.Content = content
 		return p
 	}
 	return nil

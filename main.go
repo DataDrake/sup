@@ -17,60 +17,38 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"github.com/DataDrake/sup/pieces"
+	"github.com/DataDrake/sup/shell"
+	"github.com/DataDrake/sup/shell/bash"
+	"github.com/DataDrake/sup/shell/zsh"
+	"github.com/DataDrake/sup/term"
 	"os"
-	"os/user"
-	"strings"
 )
-
-var (
-	// Hostname is the name of this machine
-	Hostname string
-	// Username is the login of the current user
-	Username string
-
-	// HomeDir is the path of the current user's HOME
-	HomeDir string
-	// WorkDir is the current working directory
-	WorkDir string
-)
-
-// Has256Color chechs for 256 color support
-func Has256Color() bool {
-	return strings.Contains(os.Getenv("TERM"), "256")
-}
-
-// HasUnicode checks for Unicode support
-func HasUnicode() bool {
-	return !strings.Contains(os.Getenv("TERM"), "linux")
-}
-
-// IsSSH checks for the presence of an SSH session
-func IsSSH() bool {
-	return len(os.Getenv("SSH_CLIENT")) > 0
-}
-
-func init() {
-	u, _ := user.Current()
-
-	Hostname, _ = os.Hostname()
-	Username = u.Username
-
-	HomeDir = u.HomeDir
-	WorkDir, _ = os.Getwd()
-}
 
 func main() {
+	var r shell.Renderer
+	// Deal with flags
+	var sh = flag.String("sh", "bash", "select shell to use")
+	flag.Parse()
+	switch *sh {
+	case "bash", "sh", "posix":
+		r = bash.Bash{}
+	case "zsh":
+		r = zsh.Zsh{}
+	default:
+		fmt.Fprintf(os.Stderr, "unsupported shell '%s', defaulting to bash\n", *sh)
+		r = bash.Bash{}
+	}
 	// Build each of the requested pieces
-	fns := []pieceFn{host, username, pyenv, vcs, dir}
-	fns = append(fns, pipeStatus()...)
-	pieces := build(fns...)
+	ps := pieces.Build(flag.Args())
 	// Render all the pieces as a single string
 	var out string
-	if HasUnicode() {
-		out = render(pieces)
+	if term.HasUnicode() {
+		out = r.Full(ps)
 	} else {
-		out = renderSimple(pieces)
+		out = r.Simple(ps)
 	}
 	// Print the resulting string to Stdout
 	fmt.Print(out)

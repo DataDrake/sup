@@ -14,22 +14,23 @@
 // limitations under the License.
 //
 
-package main
+package bash
 
-// Color represents and ECMA87 color escape code
-type Color string
+import (
+	"github.com/DataDrake/sup/pieces"
+)
 
 // FG prints a color as a foreground sequence
-func FG(c Color) string {
-	return "\\[\\e[38;5;" + string(c) + "m\\]"
+func FG(c pieces.Color) string {
+	return "\001\033[38;5;" + string(c) + "m\002"
 }
 
 // BG prints a color as a background sequence
-func BG(c Color) string {
-	return "\\[\\e[48;5;" + string(c) + "m\\]"
+func BG(c pieces.Color) string {
+	return "\001\033[48;5;" + string(c) + "m\002"
 }
 
 // Pair prints two colors as a FG/BG sequence
-func Pair(fg, bg Color) string {
-	return "\\[\\e[38;5;" + string(fg) + ";48;5;" + string(bg) + "m\\]"
+func Pair(fg, bg pieces.Color) string {
+	return "\001\033[38;5;" + string(fg) + ";48;5;" + string(bg) + "m\002"
 }

@@ -14,22 +14,28 @@
 // limitations under the License.
 //
 
-package main
+package pieces
 
 import (
+	"github.com/DataDrake/sup/term"
+	"os"
+	"os/user"
 	"strings"
 )
 
 var dots = "…"
 
 func init() {
-	if !HasUnicode() {
+	if !term.HasUnicode() {
 		dots = "..."
 	}
 }
 
 func dir() *Piece {
 	var dirs []string
+	WorkDir, _ := os.Getwd()
+	u, _ := user.Current()
+	HomeDir := u.HomeDir
 	path := strings.TrimPrefix(WorkDir, HomeDir)
 	parts := strings.Split(path, "/")
 	// Deal with HOME
@@ -53,8 +59,8 @@ func dir() *Piece {
 	}
 	dirs = append(dirs, parts...)
 	return &Piece{
-		content: strings.Join(dirs, "/"),
-		fg:      "15",
-		bg:      "8",
+		Content: strings.Join(dirs, "/"),
+		FG:      "15",
+		BG:      "8",
 	}
 }
