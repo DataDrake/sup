@@ -70,7 +70,7 @@ Reload your `zshrc` or open a new terminal. Enjoy!
 ### Themes
 There is currently limited theming support which you may enable by setting an environment variable, e.g."
 ```
-SUP_THEME=warm
+export SUP_THEME=warm
 ```
 Where `warm.json` in the themes directory corresponds with the desired theme.
 
