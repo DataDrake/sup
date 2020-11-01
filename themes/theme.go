@@ -57,8 +57,7 @@ func Load(name string) error {
 	}
 	defer f.Close()
 	dec := json.NewDecoder(f)
-	err = dec.Decode(&Current)
-	if err != nil {
+	if err = dec.Decode(&Current); err != nil {
 		return err
 	}
 	return nil

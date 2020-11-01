@@ -20,26 +20,32 @@ import (
 	"github.com/DataDrake/sup/themes"
 )
 
+func pipeGood(content string) pieceFn {
+	return func() *Piece {
+		good := Convert(themes.Current["pipe-good"])
+		good.Content = content
+		return good
+	}
+}
+
+func pipeBad(content string) pieceFn {
+	return func() *Piece {
+		bad := Convert(themes.Current["pipe-bad"])
+		bad.Content = content
+		return bad
+	}
+}
+
 func pipeStatus(statuses []string) (fns []pieceFn) {
 	failure := false
 	// Generate a piece for each return code
 	for _, content := range statuses {
-		// Assume success
-		fn := func() *Piece {
-			good := Convert(themes.Current["pipe-good"])
-			good.Content = content
-			return good
-		}
-		// override for failure
-		if content != "0" {
+		if content == "0" {
+			fns = append(fns, pipeGood(content))
+		} else {
 			failure = true
-			fn = func() *Piece {
-				bad := Convert(themes.Current["pipe-bad"])
-				bad.Content = content
-				return bad
-			}
+			fns = append(fns, pipeBad(content))
 		}
-		fns = append(fns, fn)
 	}
 	// If no failures, don't produce any output
 	if !failure {
