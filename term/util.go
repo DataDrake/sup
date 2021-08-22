@@ -21,9 +21,17 @@ import (
 	"strings"
 )
 
-// Has256Color chechs for 256 color support
+// Has256Color checks for 256 color support
 func Has256Color() bool {
-	return strings.Contains(os.Getenv("TERM"), "256")
+	term := os.Getenv("TERM")
+	switch {
+	case term == "alacritty":
+		return true
+	case strings.Contains(term, "kitty"):
+		return true
+	default:
+		return strings.Contains(term, "256")
+	}
 }
 
 // HasUnicode checks for Unicode support
