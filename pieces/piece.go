@@ -17,6 +17,7 @@
 package pieces
 
 import (
+	"github.com/DataDrake/flair/color"
 	"github.com/DataDrake/sup/term"
 	"github.com/DataDrake/sup/themes"
 )
@@ -24,8 +25,8 @@ import (
 // Piece makes up a small part of the PS1 line
 type Piece struct {
 	Content string
-	FG      string
-	BG      string
+	FG      color.Color
+	BG      color.Color
 }
 
 // Convert a theme Piece to a Piece with the right color scheme

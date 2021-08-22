@@ -18,6 +18,7 @@ package themes
 
 import (
 	"encoding/json"
+	"github.com/DataDrake/flair/color"
 	"os"
 	"path/filepath"
 )
@@ -30,13 +31,13 @@ type Piece struct {
 	Unicode string `json:"unicode"`
 	// 4-bit color for Linux Console
 	C8 struct {
-		FG string `json:"fg"`
-		BG string `json:"bg"`
+		FG color.Color `json:"fg"`
+		BG color.Color `json:"bg"`
 	} `json:"8"`
 	// 8-bit color for full terminals
 	C256 struct {
-		FG string `json:"fg"`
-		BG string `json:"bg"`
+		FG color.Color `json:"fg"`
+		BG color.Color `json:"bg"`
 	} `json:"256"`
 }
 

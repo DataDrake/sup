@@ -16,16 +16,20 @@
 
 package themes
 
+import (
+	"github.com/DataDrake/flair/color"
+)
+
 // Colors defines FG/BG color pairs for themes
 type Colors struct {
 	// 4-bit color for Linux Console
 	C8 struct {
-		FG string
-		BG string
+		FG color.Color
+		BG color.Color
 	}
 	// 8-bit color for full terminals
 	C256 struct {
-		FG string
-		BG string
+		FG color.Color
+		BG color.Color
 	}
 }

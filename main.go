@@ -32,27 +32,27 @@ func main() {
 			themes.Load("default")
 		}
 	}
-	var r shell.Renderer
+	var s shell.Shell
 	// Deal with flags
 	var sh = flag.String("sh", "bash", "select shell to use")
 	flag.Parse()
 	switch *sh {
 	case "bash", "sh", "posix":
-		r = shell.Bash{}
+		s = shell.Bash
 	case "zsh":
-		r = shell.Zsh{}
+		s = shell.Zsh
 	default:
 		fmt.Fprintf(os.Stderr, "unsupported shell '%s', defaulting to bash\n", *sh)
-		r = shell.Bash{}
+		s = shell.Bash
 	}
 	// Build each of the requested pieces
 	ps := pieces.Build(flag.Args())
 	// Render all the pieces as a single string
 	var out string
 	if term.HasUnicode() {
-		out = shell.Full(r, ps)
+		out = s.Full(ps)
 	} else {
-		out = shell.Simple(r, ps)
+		out = s.Simple(ps)
 	}
 	// Print the resulting string to Stdout
 	fmt.Print(out)

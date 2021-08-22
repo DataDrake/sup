@@ -17,38 +17,63 @@
 package shell
 
 import (
+	"github.com/DataDrake/flair"
+	"github.com/DataDrake/flair/color"
+	"github.com/DataDrake/flair/escape"
 	"github.com/DataDrake/sup/pieces"
 	"github.com/DataDrake/sup/themes"
 )
 
-// Renderer presents a common interface for supporting any shell syntax
-type Renderer interface {
-	FG(fg string) string
-	BG(bg string) string
-	Pair(fg, bg string) string
-	Reset() string
-	ResetBG() string
+// Shell Definitions
+var (
+	Bash = Shell{"\001", "\002"}
+	Zsh  = Shell{"%{", "%}"}
+)
+
+// Shell contains the shell-specific escape sequences for marking escape sequences in prompts
+type Shell struct {
+	Start string
+	End   string
+}
+
+// First color change
+func (s Shell) First(fg, bg color.Color) string {
+	return s.Start + escape.Combine(fg.FG(), bg.BG()).String() + s.End
+}
+
+// Last color change with carrot, reseting colors after
+func (s Shell) Last(fg color.Color, carrot string) string {
+	pre := s.Start + escape.Combine(fg.FG(), color.DefaultBG).String() + s.End
+	post := s.Start + flair.Reset + s.End
+	return pre + carrot + post
+}
+
+// Switch the colors between pieces, making sure the carrot looks right
+func (s Shell) Switch(bg, nextBG, nextFG color.Color, carrot string) string {
+	pre := s.Start + escape.Combine(bg.FG(), nextBG.BG()).String() + s.End
+	post := s.Start + nextFG.FG().String() + s.End
+	return pre + carrot + post
 }
 
 // Full generates a string from each of the varous parts
-func Full(r Renderer, ps []pieces.Piece) string {
+func (s Shell) Full(ps []pieces.Piece) string {
 	carrot := themes.Current["carrot"].Unicode
 	carrotSame := themes.Current["carrot-same"].Unicode
 	var status string
 	for i, curr := range ps {
 		if i == 0 {
 			// Very first piece needs colors set before-hand
-			status += r.Pair(curr.FG, curr.BG) + " "
+			status += s.First(curr.FG, curr.BG) + " "
 		}
 		status += curr.Content
 		if len(ps) == i+1 {
 			// Last piece has nothing after it
-			status += " " + r.FG(curr.BG) + r.ResetBG() + carrot + r.Reset()
+			status += " " + s.Last(curr.BG, carrot)
 			break
 		}
 		if next := ps[i+1]; curr.FG != next.FG || curr.BG != next.BG {
 			// Deal with color change
-			status += " " + r.Pair(curr.BG, next.BG) + carrot + r.FG(next.FG)
+			status += " " + s.Switch(curr.BG, next.BG, next.FG, carrot)
 		} else {
 			// Same color, so just print
 			status += carrotSame
@@ -58,13 +83,13 @@ func Full(r Renderer, ps []pieces.Piece) string {
 }
 
 // Simple generates a string from each of the varous parts, for Linux console
-func Simple(r Renderer, ps []pieces.Piece) string {
+func (s Shell) Simple(ps []pieces.Piece) string {
 	var status string
 	for i, curr := range ps {
-		status += r.Pair(curr.FG, curr.BG) + " " + curr.Content + " "
+		status += s.First(curr.FG, curr.BG) + " " + curr.Content + " "
 		if len(ps) == i+1 {
 			// Last piece has reset and simple prompt
-			status += r.Reset() + "$ "
+			status += flair.Reset + "$ "
 			break
 		}
 	}
