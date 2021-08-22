@@ -17,11 +17,14 @@
 package shell
 
 import (
+	"fmt"
 	"github.com/DataDrake/flair"
 	"github.com/DataDrake/flair/color"
 	"github.com/DataDrake/flair/escape"
 	"github.com/DataDrake/sup/pieces"
+	"github.com/DataDrake/sup/term"
 	"github.com/DataDrake/sup/themes"
+	"os"
 )
 
 // Shell Definitions
@@ -29,6 +32,22 @@ var (
 	Bash = Shell{"\001", "\002"}
 	Zsh  = Shell{"%{", "%}"}
 )
+
+// Current is the most recently set Shell
+var Current Shell
+
+// Set changes the Shell by name with Bash as the fallback
+func Set(name string) {
+	switch name {
+	case "bash", "sh", "posix":
+		Current = Bash
+	case "zsh":
+		Current = Zsh
+	default:
+		fmt.Fprintf(os.Stderr, "unsupported shell '%s', defaulting to bash\n", name)
+		Current = Bash
+	}
+}
 
 // Shell contains the shell-specific escape sequences for marking escape sequences in prompts
 type Shell struct {
@@ -94,4 +113,19 @@ func (s Shell) Simple(ps []pieces.Piece) string {
 		}
 	}
 	return status
+}
+
+// Prompt writes the configured Prompt to os.Stdout with the specified shell's formatting
+func (s Shell) Prompt(statuses []string) {
+	// Build each of the requested pieces
+	ps := pieces.Build(statuses)
+	// Render all the pieces as a single string
+	var out string
+	if term.HasUnicode() {
+		out = s.Full(ps)
+	} else {
+		out = s.Simple(ps)
+	}
+	// Print the resulting string to Stdout
+	fmt.Fprintf(os.Stdout, out)
 }

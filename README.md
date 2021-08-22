@@ -36,7 +36,7 @@ This work was inspired by the venerable [Powerline](https://github.com/powerline
 ## Requirements
 
 #### Compile-Time
-* Go 1.14 (tested)
+* Go 1.17 (tested)
 * Make
 
 #### Runtime
@@ -67,16 +67,21 @@ source /usr/share/sup/sup.zsh
 ```
 Reload your `zshrc` or open a new terminal. Enjoy!
 
-### Themes
-There is currently limited theming support which you may enable by setting an environment variable, e.g."
+## Themes
+Theming may be enabled by setting an environment variable, e.g."
 ```
 export SUP_THEME=warm
 ```
-Where `warm.json` in the themes directory corresponds with the desired theme.
+Where `warm.json` in one of the theme directories corresponds with the desired theme.
 
 See the examples in:
 ```
 /usr/share/sup/themes/
+```
+
+For your convenience, per-user themes may be installed in:
+```
+~/.config/sup/themes/
 ```
 
 ## License

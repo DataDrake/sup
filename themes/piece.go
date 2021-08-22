@@ -14,19 +14,26 @@
 // limitations under the License.
 //
 
-package main
+package themes
 
 import (
-	"flag"
-	"github.com/DataDrake/sup/shell"
+	"github.com/DataDrake/flair/color"
 )
 
-func main() {
-	// Set the shell as needed
-	var sh = flag.String("sh", "bash", "select shell to use")
-	flag.Parse()
-	shell.Set(*sh)
-	// Write the prompt
-	statuses := flag.Args()
-	shell.Current.Prompt(statuses)
+// Piece is the configuration for a Piece when rendering
+type Piece struct {
+	// ASCII symbol for non-Unicode terminals (Linux console)
+	ASCII string `json:"ascii"`
+	// Unicode symbol for Unicode terminals
+	Unicode string `json:"unicode"`
+	// 4-bit color for Linux Console
+	C8 struct {
+		FG color.Color `json:"fg"`
+		BG color.Color `json:"bg"`
+	} `json:"8"`
+	// 8-bit color for full terminals
+	C256 struct {
+		FG color.Color `json:"fg"`
+		BG color.Color `json:"bg"`
+	} `json:"256"`
 }

@@ -3,11 +3,11 @@ DESTDIR   ?=
 PREFIX    ?= /usr
 BINDIR     = $(PREFIX)/bin
 DATADIR    = $(PREFIX)/share/$(PKGNAME)
-THEMEDIR   = $(DATADIR)/themes
+SYSTEMDIR  = $(DATADIR)/themes
 
 GOPROJROOT  = $(GOSRC)/$(PROJREPO)
 
-GOLDFLAGS   = -ldflags "-s -w -X github.com/DataDrake/sup/themes.ThemeDir=$(THEMEDIR)"
+GOLDFLAGS   = -ldflags "-s -w -X github.com/DataDrake/sup/themes.SystemDir=$(SYSTEMDIR)"
 GOCC        = go
 GOFMT       = $(GOCC) fmt -x
 GOGET       = $(GOCC) get $(GOLDFLAGS)

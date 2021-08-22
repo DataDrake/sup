@@ -18,52 +18,59 @@ package themes
 
 import (
 	"encoding/json"
-	"github.com/DataDrake/flair/color"
+	"errors"
 	"os"
 	"path/filepath"
 )
 
-// Piece is the configuration for a Piece when rendering
-type Piece struct {
-	// ASCII symbol for non-Unicode terminals (Linux console)
-	ASCII string `json:"ascii"`
-	// Unicode symbol for Unicode terminals
-	Unicode string `json:"unicode"`
-	// 4-bit color for Linux Console
-	C8 struct {
-		FG color.Color `json:"fg"`
-		BG color.Color `json:"bg"`
-	} `json:"8"`
-	// 8-bit color for full terminals
-	C256 struct {
-		FG color.Color `json:"fg"`
-		BG color.Color `json:"bg"`
-	} `json:"256"`
+func init() {
+	Dirs()
+	if name := os.Getenv("SUP_THEME"); len(name) > 0 {
+		if Load(name) == nil {
+			return
+		}
+	}
+	Load("default")
 }
+
+// ErrThemeMissing occurs when a configured theme cannot be found
+var ErrThemeMissing = errors.New("unable to find specified theme")
+
+var (
+	// SystemDir is the Location of installed themes
+	SystemDir string
+	// Current is the theme to use when rendering
+	Current Theme
+)
 
 // Theme is a theme for sup
 type Theme map[string]Piece
 
-// ThemeDir is the Location of installed themes
-var ThemeDir string
-
-// Current is the theme to use when rendering
-var Current Theme
-
 // Load reads in a theme
 func Load(name string) error {
-	f, err := os.Open(filepath.Join(ThemeDir, name+".json"))
-	if err != nil {
-		return err
+	for _, dir := range dirs {
+		path := filepath.Join(dir, name+".json")
+		if _, err := os.Stat(path); err != nil {
+			continue
+		}
+		f, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+		dec := json.NewDecoder(f)
+		return dec.Decode(&Current)
 	}
-	defer f.Close()
-	dec := json.NewDecoder(f)
-	if err = dec.Decode(&Current); err != nil {
-		return err
-	}
-	return nil
+	return ErrThemeMissing
 }
 
-func init() {
-	Load("default")
+var dirs []string
+
+// Dirs builds a list of theme directories for searching
+func Dirs() {
+	home, err := os.UserHomeDir()
+	if err == nil {
+		dirs = append(dirs, filepath.Join(home, ".config", "sup", "themes"))
+	}
+	dirs = append(dirs, SystemDir)
 }
