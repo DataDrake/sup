@@ -127,5 +127,5 @@ func (s Shell) Prompt(statuses []string) {
 		out = s.Simple(ps)
 	}
 	// Print the resulting string to Stdout
-	fmt.Fprintf(os.Stdout, out)
+	os.Stdout.Write([]byte(out))
 }
