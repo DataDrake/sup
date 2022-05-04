@@ -19,19 +19,26 @@ package term
 import (
 	"os"
 	"strings"
+
+	"github.com/xo/terminfo"
 )
 
 // Has256Color checks for 256 color support
 func Has256Color() bool {
-	term := os.Getenv("TERM")
-	switch {
-	case term == "alacritty":
-		return true
-	case strings.Contains(term, "kitty"):
-		return true
-	default:
-		return strings.Contains(term, "256")
+	// Load the current terminfo
+	ti, err := terminfo.LoadFromEnv()
+	if err != nil {
+		return false
 	}
+
+	// Get the colors from the terminfo if set
+	var colors int
+	if colors = ti.Num(terminfo.MaxColors); colors <= 0 {
+		// Colors don't seem to be set, assume basic colors only
+		colors = int(terminfo.ColorLevelBasic)
+	}
+
+	return colors >= 256
 }
 
 // HasUnicode checks for Unicode support
