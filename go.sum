@@ -1,2 +1,4 @@
 github.com/DataDrake/flair v0.5.1 h1:JHWOoBRiQGWg+k2bV2Mje2YmDtRjhMj51yDxQkzidWI=
 github.com/DataDrake/flair v0.5.1/go.mod h1:3KgdmkL8eJDbg/HdMwlHkeYH/mpSy/hsQvxYQFp9A/Y=
+github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 h1:QldyIu/L63oPpyvQmHgvgickp1Yw510KJOqX7H24mg8=
+github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778/go.mod h1:2MuV+tbUrU1zIOPMxZ5EncGwgmMJsa+9ucAQZXxsObs=
